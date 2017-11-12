@@ -7,10 +7,13 @@ result = early_score[@player_1_points] + "-" + early_score[@player_2_points]
 case point_diff
   when 1
     result ="Advantage " + @player_1_name
+    return
   when -1
     result ="Advantage " + @player_2_name
+    return
   when point_diff >= 2
     result = "Win for " + @player_1_name
+    return
   else
     result ="Win for " + @player_2_name
 end

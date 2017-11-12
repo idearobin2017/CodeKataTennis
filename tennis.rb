@@ -1,43 +1,73 @@
 class TennisGame1
 
-  def initialize(player_1_name, player_2_name)
-    @player_1_name = player_1_name
-    @player_2_name = player_2_name
+  def initialize(player_1, player_2)
+    @player_1_name = player_1
+    @player_2_name = player_2
     @player_1_points = 0
     @player_2_points = 0
   end
 
-  def won_point(player_name)
-    player_name == @player_1_name? @player_1_points += 1 : @player_2_points += 1   # Ternary
+  def won_point(scorer)
+    add_point(scorer)
   end
 
   def score
-    tie_score = ["Love-All", "Fifteen-All", "Thirty-All"]
-    early_score = ["Love", "Fifteen", "Thirty", "Forty"]
-
-    if (@player_1_points == @player_2_points)
-      result = tie_score.fetch(@player_1_points, "Deuce")
-
+    if tying_score
+      close_game
     elsif (@player_1_points>=4 || @player_2_points >= 4)
-      point_diff = @player_1_points - @player_2_points
-      if (point_diff== 1)
-        result ="Advantage " + @player_1_name
-      elsif (point_diff == -1)
-        result ="Advantage " + @player_2_name
-      elsif (point_diff >= 2)
-        result = "Win for " + @player_1_name
-      else
-        result = "Win for " + @player_2_name
-      end
-
+      long_game
     else
-      result = early_score[@player_1_points] + "-" + early_score[@player_2_points]  #Greatest moment!!!
+      early_game
     end
-
-    result
   end
 
+  def tie_score_system
+    ["Love-All", "Fifteen-All", "Thirty-All"]
+  end
+
+  def tying_score
+    @player_1_points == @player_2_points
+  end
+
+  def early_score
+    ["Love", "Fifteen", "Thirty", "Forty"]
+  end
+
+  def point_diff
+    @player_1_points - @player_2_points
+  end
+
+  def close_game
+    tie_score_system.fetch(@player_1_points, "Deuce")
+  end
+
+  def long_game
+    if (point_diff == 1)
+      "Advantage " + @player_1_name
+    elsif (point_diff == -1)
+      "Advantage " + @player_2_name
+    elsif (point_diff >= 2)
+      "Win for " + @player_1_name
+    else
+      "Win for " + @player_2_name
+    end
+  end
+
+  def early_game
+    early_score[@player_1_points] + "-" + early_score[@player_2_points]
+  end
+
+  def add_point(scorer)
+    scorer == @player_1_name? @player_1_points += 1 : @player_2_points += 1
+  end
 end
+
+
+
+
+
+
+
 
 
 class TennisGame2
